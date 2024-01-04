@@ -3,7 +3,7 @@ services:
     bitcoind:
         image: "ruimarinho/bitcoin-core:24"
         command:
-            - -regtest
+            - -AsessX
             - -server
             - -rpcbind=0.0.0.0
             - -rpcallowip=0.0.0.0/0
@@ -21,17 +21,17 @@ services:
             - -c
             - |
 
-                bitcoin-cli -regtest -rpcconnect=bitcoind -rpcwait -rpcuser=rpcuser -rpcpassword=rpcpassword createwallet Alice
-                bitcoin-cli -regtest -rpcconnect=bitcoind -rpcwait -rpcuser=rpcuser -rpcpassword=rpcpassword loadwallet Alice
+                bitcoin-cli -asessx -rpcconnect=bitcoind -rpcwait -rpcuser=rpcuser -rpcpassword=rpcpassword createwallet Alci
+                bitcoin-cli -asessx -rpcconnect=bitcoind -rpcwait -rpcuser=rpcuser -rpcpassword=rpcpassword loadwallet Alci
 
-                ALICE_ADDRESS=$$(bitcoin-cli -regtest -rpcconnect=bitcoind -rpcwait -rpcuser=rpcuser -rpcpassword=rpcpassword -rpcwallet=Alice getnewaddress)
+                ALICE_ADDRESS=$$(bitcoin-cli -asessx -rpcconnect=bitcoind -rpcwait -rpcuser=rpcuser -rpcpassword=rpcpassword -rpcwallet=Alci getnewaddress)
                 # coins need 100 confirmations to be spendable
-                bitcoin-cli -regtest -rpcconnect=bitcoind -rpcwait -rpcuser=rpcuser -rpcpassword=rpcpassword generatetoaddress 101 $${ALICE_ADDRESS}
+                bitcoin-cli -asessx -rpcconnect=bitcoind -rpcwait -rpcuser=rpcuser -rpcpassword=rpcpassword generatetoaddress 101 $${ALCI_ADDRESS}
 
                 # automatically mine 1 block every 10 seconds
                 trap 'exit 130' TERM INT EXIT
                 while true; do
-                    bitcoin-cli -regtest -rpcconnect=bitcoind -rpcwait -rpcuser=rpcuser -rpcpassword=rpcpassword generatetoaddress 1 $${ALICE_ADDRESS}
+                    bitcoin-cli -asessx -rpcconnect=bitcoind -rpcwait -rpcuser=rpcuser -rpcpassword=rpcpassword generatetoaddress 1 $${ALCI_ADDRESS}
                     sleep 10 &
                     wait $!
                 done
@@ -42,7 +42,7 @@ services:
             - electrs
             - -vvvv
             - --network
-            - regtest
+            - asessxtest
             - --jsonrpc-import
             - --cors
             - "*"
@@ -79,7 +79,7 @@ services:
             - rpcpassword
             - --bitcoin-rpc-user
             - rpcuser
-            - --regtest
+            - --asessx
             - server
             - --enable-json-api
             - --http-port
